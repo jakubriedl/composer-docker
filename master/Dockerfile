@@ -22,6 +22,13 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN php --version
 RUN composer --version
 
+# Setup ssh key
+RUN mkdir -p /root/.ssh
+ADD id_rsa /root/.ssh/id_rsa
+RUN chmod 700 /root/.ssh/id_rsa
+RUN echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
+RUN echo -e "Host bitbucket.org\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
+
 # Set up the application directory.
 VOLUME ["/app"]
 WORKDIR /app
